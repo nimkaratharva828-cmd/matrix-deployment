@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/static/img/dot_matrix.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Chat Bot - Matrix</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #212121;
+        --accent-color: #ff0000;
+        --text-primary: #ffffff;
+        --text-secondary: #a8a8a8;
+        --border-color: #272727;
+        --hover-bg: #272727;
+        --card-bg: #1a1a1a;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .main-container {
+        display: flex;
+        flex: 1;
+      }
+
+      /* ========== HEADER ========== */
+      .header {
+        background: var(--primary-color);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(15, 15, 15, 0.95);
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 30px;
+        height: 65px;
+      }
+
+      .menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      .menu.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ========== SEARCH BAR ========== */
+      .search {
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 8px 15px;
+        gap: 12px;
+        flex: 0 1 400px;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .search:focus-within {
+        background: var(--secondary-color);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+      }
+
+      .seainp {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        flex: 1;
+        padding: 8px 0;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .seabtt:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(255, 0, 0, 0.3);
+      }
+
+      /* ========== SUGGESTIONS DROPDOWN ========== */
+      .suggestion-list {
+        list-style: none;
+        padding: 8px 0;
+        margin: 0;
+        border: 1px solid var(--border-color);
+        position: absolute;
+        background: var(--secondary-color);
+        z-index: 1001;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 8px;
+        border-radius: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      }
+
+      .suggestion-list li {
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+      }
+
+      .suggestion-list li:hover {
+        background-color: var(--hover-bg);
+        border-left-color: var(--accent-color);
+        padding-left: 16px;
+      }
+
+      /* ========== LOGIN BUTTON ========== */
+      .cy {
+        display: flex;
+        align-items: center;
+      }
+
+      .cy ul {
+        list-style-type: none;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .cy a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        transition: var(--transition);
+        font-size: 18px;
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== SIDEBAR ========== */
+      .sidenav {
+        display: flex;
+        flex-direction: column;
+        width: 260px;
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        padding: 20px 0;
+        overflow-y: auto;
+        height: auto;
+      }
+
+      .sidenav .icon {
+        flex: 1;
+        padding: 0 10px;
+      }
+
+      .sidenav .icon ul {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .sidenav .icon a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 16px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: var(--transition);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .sidenav .icon a:hover {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+        padding-left: 20px;
+      }
+
+      .sidenav .icon a i {
+        font-size: 18px;
+        width: 24px;
+      }
+
+      .sidenav .sett {
+        padding: 20px 10px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+      }
+
+      .sidenav .sett ul {
+        list-style-type: none;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .sidenav .sett a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 16px;
+      }
+
+      .sidenav .sett a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== MOBILE SIDEBAR OVERLAY ========== */
+      .sidenav.mobile-visible {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 240px;
+        height: calc(100vh - 65px);
+        z-index: 999;
+        animation: slideInLeft 0.3s ease-out;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* ========== CHATBOT CONTAINER ========== */
+      .chat-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .chat-header {
+        padding: 30px 40px;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .chat-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          var(--accent-color) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .chat-header p {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .chat-header .bot-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        padding: 8px 16px;
+        background: rgba(0, 255, 0, 0.1);
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        border-radius: 20px;
+        font-size: 12px;
+        color: #00ff00;
+        font-weight: 600;
+      }
+
+      .bot-status .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* ========== CHAT MESSAGES ========== */
+      .chat-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 30px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        animation: fadeIn 0.6s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        animation: messageSlide 0.3s ease-out;
+      }
+
+      @keyframes messageSlide {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.user {
+        justify-content: flex-end;
+      }
+
+      .message.bot {
+        justify-content: flex-start;
+      }
+
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .message.user .message-avatar {
+        background: var(--accent-color);
+        order: 2;
+      }
+
+      .message.bot .message-avatar {
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .message-content {
+        max-width: 60%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        word-wrap: break-word;
+      }
+
+      .message.user .message-content {
+        background: linear-gradient(
+          135deg,
+          var(--accent-color) 0%,
+          #ff3333 100%
+        );
+        color: white;
+        border-radius: 12px 4px 12px 12px;
+      }
+
+      .message.bot .message-content {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 4px 12px 12px 12px;
+      }
+
+      .message-time {
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+
+      .message.user .message-time {
+        text-align: right;
+      }
+
+      .message.bot .message-time {
+        text-align: left;
+      }
+
+      /* ========== TYPING INDICATOR ========== */
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 12px 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px 12px 12px 12px;
+        width: fit-content;
+      }
+
+      .typing-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--text-secondary);
+        border-radius: 50%;
+        animation: typing 1.4s infinite;
+      }
+
+      .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes typing {
+        0%,
+        60%,
+        100% {
+          opacity: 0.5;
+          transform: translateY(0);
+        }
+        30% {
+          opacity: 1;
+          transform: translateY(-10px);
+        }
+      }
+
+      /* ========== PROMPT AREA ========== */
+      .prompt-area {
+        padding: 20px 40px;
+        border-top: 1px solid var(--border-color);
+        background: var(--primary-color);
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+
+      .prompt-input-wrapper {
+        flex: 1;
+        display: flex;
+        gap: 12px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 8px 16px;
+        transition: var(--transition);
+      }
+
+      .prompt-input-wrapper:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+      }
+
+      .prompt {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-size: 14px;
+        outline: none;
+        font-family: "Inter", sans-serif;
+        resize: none;
+        max-height: 100px;
+      }
+
+      .prompt::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .btn {
+        background: linear-gradient(
+          135deg,
+          var(--accent-color) 0%,
+          #ff3333 100%
+        );
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 16px rgba(255, 0, 0, 0.3);
+      }
+
+      .btn:active {
+        transform: scale(0.95);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* ========== EMPTY STATE ========== */
+      .chat-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 20px;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .chat-empty-state i {
+        font-size: 60px;
+        opacity: 0.3;
+        margin-bottom: 10px;
+      }
+
+      .chat-empty-state h3 {
+        font-size: 18px;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .chat-empty-state p {
+        font-size: 13px;
+        max-width: 300px;
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 768px) {
+        .topnav {
+          padding: 12px 12px;
+          gap: 12px;
+        }
+
+        .menu {
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .search {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .sidenav {
+          display: none;
+        }
+
+        .sidenav.mobile-visible {
+          display: flex;
+        }
+
+        .chat-header {
+          padding: 20px;
+        }
+
+        .chat-header h1 {
+          font-size: 24px;
+        }
+
+        .chat-container {
+          padding: 20px;
+          gap: 15px;
+        }
+
+        .message-content {
+          max-width: 80%;
+        }
+
+        .prompt-area {
+          padding: 15px 20px;
+        }
+
+        .prompt-input-wrapper {
+          border-radius: 20px;
+          padding: 6px 12px;
+        }
+
+        .btn {
+          width: 36px;
+          height: 36px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chat-header {
+          padding: 15px;
+        }
+
+        .chat-header h1 {
+          font-size: 20px;
+        }
+
+        .chat-container {
+          padding: 15px;
+          gap: 12px;
+        }
+
+        .message-content {
+          max-width: 90%;
+          padding: 10px 12px;
+          font-size: 13px;
+        }
+
+        .prompt-area {
+          padding: 12px 15px;
+        }
+
+        .prompt {
+          font-size: 13px;
+        }
+      }
+
+      /* ========== SCROLLBAR ========== */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+      }
+
+      /* ========== WELCOME CARD ========== */
+      .welcome-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .welcome-card h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+      }
+
+      .welcome-card p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+      }
+
+      .quick-suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .suggestion-btn {
+        padding: 8px 12px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        color: var(--text-secondary);
+        font-size: 12px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .suggestion-btn:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu" id="menuToggle">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <form method="get" action="">
+            <div class="search">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: var(--text-secondary); font-size: 14px"
+              ></i>
+              <input
+                class="seainp"
+                id="searchBar"
+                name="search"
+                type="search"
+                placeholder="Search videos..."
+              />
+              <ul id="suggestions" class="suggestion-list"></ul>
+              <button class="seabtt" type="submit">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="{% url 'login' %}" title="Sign In">
+                  <i class="fa-solid fa-user"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <aside class="sidenav" id="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user-circle"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Upload</span>
+                </a>
+              </li>
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Chat-Bot</span>
+                </a>
+              </li>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  <span>News</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info" title="Info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting" title="Settings">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="chat-wrapper">
+          <div class="chat-header">
+            <h1><i class="fa-solid fa-robot"></i> Matrix Assistant</h1>
+            <p>Your AI-powered learning companion</p>
+            <div class="bot-status">
+              <div class="status-dot"></div>
+              Online & Ready to Help
+            </div>
+          </div>
+
+          <div class="chat-container" id="chatContainer">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+              <h3>Welcome to Matrix Assistant! 👋</h3>
+              <p>
+                I'm here to help you with any questions about your courses,
+                learning progress, and more.
+              </p>
+              <div class="quick-suggestions">
+                <button
+                  class="suggestion-btn"
+                  onclick="sendMessage('How can I improve my skills?')"
+                >
+                  <i class="fa-solid fa-star"></i> Improve Skills
+                </button>
+                <button
+                  class="suggestion-btn"
+                  onclick="sendMessage('What courses are available?')"
+                >
+                  <i class="fa-solid fa-book"></i> View Courses
+                </button>
+                <button
+                  class="suggestion-btn"
+                  onclick="sendMessage('How does this platform work?')"
+                >
+                  <i class="fa-solid fa-question"></i> Platform Guide
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-area">
+            <div class="prompt-input-wrapper">
+              <input
+                type="text"
+                class="prompt"
+                id="promptInput"
+                placeholder="Ask me anything..."
+                onkeypress="handleKeyPress(event)"
+              />
+            </div>
+            <button class="btn" id="sendBtn" onclick="sendMessage()">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ========== MENU TOGGLE ==========
+      const menuToggle = document.getElementById("menuToggle");
+      const sidenav = document.getElementById("sidenav");
+
+      menuToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidenav.classList.toggle("mobile-visible");
+        menuToggle.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!sidenav.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidenav.classList.remove("mobile-visible");
+          menuToggle.classList.remove("active");
+        }
+      });
+
+      // Close sidebar on link click (mobile)
+      sidenav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", function () {
+          if (window.innerWidth <= 768) {
+            sidenav.classList.remove("mobile-visible");
+            menuToggle.classList.remove("active");
+          }
+        });
+      });
+
+      // ========== SEARCH SUGGESTIONS ==========
+      document
+        .getElementById("searchBar")
+        .addEventListener("input", function () {
+          const query = this.value;
+
+          if (query.length > 1) {
+            fetch(`/search-suggestions/?term=${encodeURIComponent(query)}`)
+              .then((response) => response.json())
+              .then((data) => {
+                const suggestionBox = document.getElementById("suggestions");
+
+                suggestionBox.innerHTML = "";
+
+                if (data.length > 0) {
+                  data.forEach((title) => {
+                    const listItem = document.createElement("li");
+
+                    listItem.textContent = title;
+
+                    listItem.addEventListener("click", () => {
+                      document.getElementById("searchBar").value = title;
+                      suggestionBox.innerHTML = "";
+                    });
+
+                    suggestionBox.appendChild(listItem);
+                  });
+                }
+              })
+              .catch((err) => console.error("Search error:", err));
+          } else {
+            document.getElementById("suggestions").innerHTML = "";
+          }
+        });
+
+      // Close suggestions when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".search")) {
+          document.getElementById("suggestions").innerHTML = "";
+        }
+      });
+
+      // ========== CHAT UI ==========
+      const chatContainer = document.getElementById("chatContainer");
+      const promptInput = document.getElementById("promptInput");
+      const sendBtn = document.getElementById("sendBtn");
+
+      // ========== QUICK BUTTON RESPONSES ==========
+      function generateBotResponse(userMessage) {
+        const responses = {
+          skills:
+            "To improve your skills, I recommend: 1) Practice regularly, 2) Complete video tutorials, 3) Work on projects, 4) Join our community forums, and 5) Review feedback from mentors.",
+
+          course:
+            "We offer courses in AI/ML, Web Development, and Cybersecurity. Each course has multiple modules with video lectures, quizzes, and projects.",
+
+          platform:
+            "This platform helps you learn through structured video courses and community support. You can upload content, track progress, and connect with other learners.",
+
+          help: "I can help you with course information, learning tips, platform features, and more! What would you like to know?",
+        };
+
+        const lower = userMessage.toLowerCase();
+
+        if (lower.includes("improve") || lower.includes("skill")) {
+          return responses.skills;
+        }
+
+        if (lower.includes("course") || lower.includes("available")) {
+          return responses.course;
+        }
+
+        if (
+          lower.includes("how") ||
+          lower.includes("work") ||
+          lower.includes("platform")
+        ) {
+          return responses.platform;
+        }
+
+        if (lower.includes("help")) {
+          return responses.help;
+        }
+
+        return null;
+      }
+
+      // ========== GEMINI API ==========
+      //const Api_url =
+      // "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyCirE_6EVJbLy1a-c8rT2XC6qy4noV33ng";
+      const API_URL =
+        "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyDd_GeE7HJCP-uaIeRQw93WXoq3zy4e0Fg";
+
+      // ========== SEND MESSAGE ==========
+      async function sendMessage(message = null) {
+        const text = message || promptInput.value.trim();
+
+        if (!text) return;
+
+        addMessage(text, "user");
+
+        promptInput.value = "";
+
+        sendBtn.disabled = true;
+
+        showTypingIndicator();
+
+        // ===== QUICK LOCAL REPLIES =====
+        const quickReply = generateBotResponse(text);
+
+        if (quickReply) {
+          setTimeout(() => {
+            removeTypingIndicator();
+
+            addMessage(quickReply, "bot");
+
+            sendBtn.disabled = false;
+
+            promptInput.focus();
+          }, 800);
+
+          return;
+        }
+
+        // ===== GEMINI API =====
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              contents: [
+                {
+                  role: "user",
+                  parts: [{ text: text }],
+                },
+              ],
+            }),
+          });
+
+          const data = await response.json();
+
+          console.log("Gemini Response:", data);
+
+          removeTypingIndicator();
+
+          if (!response.ok) {
+            throw new Error(data?.error?.message || "Failed to get response");
+          }
+
+          let botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+          if (!botReply) {
+            botReply = "No response received from Gemini.";
+          }
+
+          addMessage(botReply, "bot");
+        } catch (error) {
+          console.error(error);
+
+          removeTypingIndicator();
+
+          addMessage("Error: " + error.message, "bot");
+        }
+
+        sendBtn.disabled = false;
+
+        promptInput.focus();
+      }
+
+      // ========== ADD MESSAGE ==========
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement("div");
+
+        messageDiv.className = `message ${sender}`;
+
+        const avatar = document.createElement("div");
+
+        avatar.className = "message-avatar";
+
+        avatar.innerHTML =
+          sender === "user"
+            ? '<i class="fa-solid fa-user"></i>'
+            : '<i class="fa-solid fa-robot"></i>';
+
+        const contentWrapper = document.createElement("div");
+
+        const content = document.createElement("div");
+
+        content.className = "message-content";
+
+        content.textContent = text;
+
+        const time = document.createElement("div");
+
+        time.className = "message-time";
+
+        time.textContent = new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        contentWrapper.appendChild(content);
+
+        contentWrapper.appendChild(time);
+
+        messageDiv.appendChild(avatar);
+
+        messageDiv.appendChild(contentWrapper);
+
+        chatContainer.appendChild(messageDiv);
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+
+      // ========== TYPING ==========
+      function showTypingIndicator() {
+        const messageDiv = document.createElement("div");
+
+        messageDiv.className = "message bot";
+
+        messageDiv.id = "typingIndicator";
+
+        const avatar = document.createElement("div");
+
+        avatar.className = "message-avatar";
+
+        avatar.innerHTML = '<i class="fa-solid fa-robot"></i>';
+
+        const typing = document.createElement("div");
+
+        typing.className = "typing-indicator";
+
+        typing.innerHTML =
+          '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+        messageDiv.appendChild(avatar);
+
+        messageDiv.appendChild(typing);
+
+        chatContainer.appendChild(messageDiv);
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+
+      function removeTypingIndicator() {
+        const typing = document.getElementById("typingIndicator");
+
+        if (typing) {
+          typing.remove();
+        }
+      }
+
+      // ========== ENTER KEY ==========
+      function handleKeyPress(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+
+          sendMessage();
+        }
+      }
+
+      // Focus on input
+      promptInput.focus();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Matrix</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <h2 style="color:white">MATRIX </h2>
+          <form action="">
+            <div class="search">
+              <input class="seainp" type="search" placeholder="Search Here" />
+              <button class="seabtt" type="submit">Search</button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="{% url 'login' %}">
+                  <i class="fa-solid fa-right-to-bracket" style="color:red;padding-top:1.3vh;padding-left:1.5vh" style="align:center;"></i>
+                </a>
+              </li>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <aside class="sidenav">
+          <div class="icon">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house" style="color: #ffffff"></i>Home
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-tornado" style="color: #ffffff"></i>
+                  Profile
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-upload" style="color: #ffffff"></i>
+                  Upload
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-brain" style="color: #ffffff;"></i>
+                  Chat-Boot
+                </a>
+              </li>
+              <br>
+              <li>
+                <a href="/tweet">
+                  <i class="fa-brands fa-twitter" style="color: #ffffff"></i>
+                  Tweet
+                </a>
+              </li>
+              <br>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper" style="color: #ffffff"></i>
+                  News
+              </a>              
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i
+                    class="fa-regular fa-clock fa-rotate-180"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting">
+                  <i
+                    class="fa-solid fa-gear fa-rotate-90"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </header>
+
+
+      
+    </div>
+  </body>
+</html>

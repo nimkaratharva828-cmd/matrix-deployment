@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/static/img/dot_matrix.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>News - Matrix</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #212121;
+        --accent-color: #ff0000;
+        --text-primary: #ffffff;
+        --text-secondary: #a8a8a8;
+        --border-color: #272727;
+        --hover-bg: #272727;
+        --card-bg: #1a1a1a;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .main-container {
+        display: flex;
+        flex: 1;
+      }
+
+      /* ========== HEADER ========== */
+      .header {
+        background: var(--primary-color);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(15, 15, 15, 0.95);
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 30px;
+        height: 65px;
+      }
+
+      .menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      .menu.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ========== SEARCH BAR ========== */
+      .search {
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 8px 15px;
+        gap: 12px;
+        flex: 0 1 400px;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .search:focus-within {
+        background: var(--secondary-color);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+      }
+
+      .seainp {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        flex: 1;
+        padding: 8px 0;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .seabtt:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(255, 0, 0, 0.3);
+      }
+
+      /* ========== SUGGESTIONS DROPDOWN ========== */
+      .suggestion-list {
+        list-style: none;
+        padding: 8px 0;
+        margin: 0;
+        border: 1px solid var(--border-color);
+        position: absolute;
+        background: var(--secondary-color);
+        z-index: 1001;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 8px;
+        border-radius: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      }
+
+      .suggestion-list li {
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+      }
+
+      .suggestion-list li:hover {
+        background-color: var(--hover-bg);
+        border-left-color: var(--accent-color);
+        padding-left: 16px;
+      }
+
+      /* ========== LOGIN BUTTON ========== */
+      .cy {
+        display: flex;
+        align-items: center;
+      }
+
+      .cy ul {
+        list-style-type: none;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .cy a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        transition: var(--transition);
+        font-size: 18px;
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== SIDEBAR ========== */
+      .sidenav {
+        display: flex;
+        flex-direction: column;
+        width: 260px;
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        padding: 20px 0;
+        overflow-y: auto;
+        height: auto;
+      }
+
+      .sidenav .icon {
+        flex: 1;
+        padding: 0 10px;
+      }
+
+      .sidenav .icon ul {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .sidenav .icon a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 16px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: var(--transition);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .sidenav .icon a:hover {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+        padding-left: 20px;
+      }
+
+      .sidenav .icon a i {
+        font-size: 18px;
+        width: 24px;
+      }
+
+      .sidenav .sett {
+        padding: 20px 10px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+      }
+
+      .sidenav .sett ul {
+        list-style-type: none;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .sidenav .sett a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 16px;
+      }
+
+      .sidenav .sett a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== MOBILE SIDEBAR OVERLAY ========== */
+      .sidenav.mobile-visible {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 240px;
+        height: calc(100vh - 65px);
+        z-index: 999;
+        animation: slideInLeft 0.3s ease-out;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* ========== NEWS CONTAINER ========== */
+      .news-container {
+        flex: 1;
+        padding: 40px;
+        width: 100%;
+        overflow-y: auto;
+      }
+
+      .news-header {
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .news-header-content h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          var(--accent-color) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .news-header-content p {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .news-filters {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        background: rgba(255, 0, 0, 0.1);
+      }
+
+      /* ========== NEWS GRID ========== */
+      .news-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+        animation: fadeIn 0.6s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ========== FEATURED NEWS ========== */
+      .featured-article {
+        grid-column: 1 / -1;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        transition: var(--transition);
+        height: 300px;
+      }
+
+      .featured-article:hover {
+        border-color: var(--accent-color);
+        box-shadow: 0 16px 32px rgba(255, 0, 0, 0.15);
+      }
+
+      .featured-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background: linear-gradient(135deg, #1a1a1a 0%, #272727 100%);
+      }
+
+      .featured-content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .news-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        padding: 6px 12px;
+        background: rgba(255, 0, 0, 0.2);
+        border: 1px solid rgba(255, 0, 0, 0.4);
+        border-radius: 20px;
+        color: var(--accent-color);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+
+      .featured-content h2 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+      }
+
+      .featured-content p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .news-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .news-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* ========== NEWS CARD ========== */
+      .news-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: var(--transition);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .news-card:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-8px);
+        box-shadow: 0 16px 32px rgba(255, 0, 0, 0.15);
+      }
+
+      .news-card-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #1a1a1a 0%, #272727 100%);
+        transition: var(--transition);
+      }
+
+      .news-card:hover .news-card-image {
+        transform: scale(1.08);
+      }
+
+      .news-card-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .news-card-category {
+        font-size: 11px;
+        color: var(--accent-color);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+
+      .news-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .news-card:hover .news-card-title {
+        color: var(--accent-color);
+      }
+
+      .news-card-desc {
+        font-size: 12px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin-bottom: 16px;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .news-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid var(--border-color);
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .read-more-btn {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .read-more-btn:hover {
+        gap: 10px;
+      }
+
+      /* ========== EMPTY STATE ========== */
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;
+        gap: 20px;
+        color: var(--text-secondary);
+      }
+
+      .empty-state i {
+        font-size: 60px;
+        opacity: 0.3;
+      }
+
+      .empty-state h3 {
+        font-size: 18px;
+        color: var(--text-primary);
+      }
+
+      .empty-state p {
+        font-size: 13px;
+        text-align: center;
+      }
+
+      /* ========== PAGINATION ========== */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+      }
+
+      .pagination-btn {
+        padding: 10px 16px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .pagination-btn:hover,
+      .pagination-btn.active {
+        border-color: var(--accent-color);
+        background: var(--accent-color);
+        color: white;
+      }
+
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 1024px) {
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .featured-article {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+
+        .featured-image {
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .topnav {
+          padding: 12px 12px;
+          gap: 12px;
+        }
+
+        .menu {
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .search {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .sidenav {
+          display: none;
+        }
+
+        .sidenav.mobile-visible {
+          display: flex;
+        }
+
+        .news-container {
+          padding: 20px;
+        }
+
+        .news-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .news-header-content h1 {
+          font-size: 24px;
+        }
+
+        .news-filters {
+          width: 100%;
+        }
+
+        .news-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .featured-content {
+          padding: 20px;
+        }
+
+        .featured-content h2 {
+          font-size: 20px;
+        }
+
+        .news-grid {
+          margin-bottom: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .news-container {
+          padding: 15px;
+        }
+
+        .news-header-content h1 {
+          font-size: 20px;
+        }
+
+        .featured-article {
+          grid-template-columns: 1fr;
+        }
+
+        .featured-content {
+          padding: 15px;
+        }
+
+        .featured-content h2 {
+          font-size: 18px;
+        }
+
+        .news-meta {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .news-card-image {
+          height: 140px;
+        }
+
+        .news-card-content {
+          padding: 15px;
+        }
+      }
+
+      /* ========== SCROLLBAR ========== */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu" id="menuToggle">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <form method="get" action="">
+            <div class="search">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: var(--text-secondary); font-size: 14px"
+              ></i>
+              <input
+                class="seainp"
+                id="searchBar"
+                name="search"
+                type="search"
+                placeholder="Search news..."
+              />
+              <ul id="suggestions" class="suggestion-list"></ul>
+              <button class="seabtt" type="submit">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="{% url 'login' %}" title="Sign In">
+                  <i class="fa-solid fa-user"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <aside class="sidenav" id="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user-circle"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Upload</span>
+                </a>
+              </li>
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Chat-Bot</span>
+                </a>
+              </li>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  <span>News</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info" title="Info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting" title="Settings">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="news-container">
+          <!-- News Header -->
+          <div class="news-header">
+            <div class="news-header-content">
+              <h1><i class="fa-solid fa-newspaper"></i> Latest News</h1>
+              <p>
+                Stay updated with the latest developments in tech and learning
+              </p>
+            </div>
+            <div class="news-filters">
+              <button class="filter-btn active" onclick="filterNews('all')">
+                All
+              </button>
+              <button class="filter-btn" onclick="filterNews('ai')">
+                AI/ML
+              </button>
+              <button class="filter-btn" onclick="filterNews('web')">
+                Web Dev
+              </button>
+              <button class="filter-btn" onclick="filterNews('cyber')">
+                Security
+              </button>
+            </div>
+          </div>
+
+          <!-- Featured News -->
+          <div class="news-grid">
+            <article class="featured-article">
+              <img
+                src="https://images.unsplash.com/photo-1677442d019cecf8978f0a5e551a3b9b4c2a1a1a?w=800&h=300&fit=crop"
+                alt="Featured News"
+                class="featured-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22%3E%3Crect fill=%22%23272727%22 width=%22800%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="featured-content">
+                <div>
+                  <span class="news-badge">
+                    <i class="fa-solid fa-star"></i> Featured
+                  </span>
+                  <h2>
+                    Artificial Intelligence Revolutionizing the Tech Industry
+                  </h2>
+                  <p>
+                    Explore how AI is transforming various sectors and creating
+                    new opportunities for developers and learners worldwide.
+                  </p>
+                </div>
+                <div class="news-meta">
+                  <span class="news-meta-item">
+                    <i class="fa-solid fa-calendar"></i> March 15, 2024
+                  </span>
+                  <span class="news-meta-item">
+                    <i class="fa-solid fa-user"></i> Tech Team
+                  </span>
+                  <span class="news-meta-item">
+                    <i class="fa-solid fa-clock"></i> 5 min read
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            <!-- News Cards -->
+            <article class="news-card" data-category="ai">
+              <img
+                src="https://images.unsplash.com/photo-1677442d019cecf8978f0a5e551a3b9b4c2a1a1a?w=400&h=180&fit=crop"
+                alt="News 1"
+                class="news-card-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 180%22%3E%3Crect fill=%22%23272727%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="news-card-content">
+                <span class="news-card-category">AI/ML</span>
+                <h3 class="news-card-title">
+                  Deep Learning Models Breaking Performance Records
+                </h3>
+                <p class="news-card-desc">
+                  Latest deep learning breakthroughs are achieving unprecedented
+                  accuracy levels in image recognition and natural language
+                  processing tasks.
+                </p>
+                <div class="news-card-footer">
+                  <span>March 10, 2024</span>
+                  <a href="#" class="read-more-btn"
+                    >Read More <i class="fa-solid fa-arrow-right"></i
+                  ></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-card" data-category="web">
+              <img
+                src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=400&h=180&fit=crop"
+                alt="News 2"
+                class="news-card-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 180%22%3E%3Crect fill=%22%23272727%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="news-card-content">
+                <span class="news-card-category">Web Dev</span>
+                <h3 class="news-card-title">
+                  Next.js 14 Released with Impressive Performance Gains
+                </h3>
+                <p class="news-card-desc">
+                  The latest version introduces significant performance
+                  improvements and new developer-friendly features for building
+                  modern web applications.
+                </p>
+                <div class="news-card-footer">
+                  <span>March 8, 2024</span>
+                  <a href="#" class="read-more-btn"
+                    >Read More <i class="fa-solid fa-arrow-right"></i
+                  ></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-card" data-category="cyber">
+              <img
+                src="https://images.unsplash.com/photo-1563206771-641684a6d4ee?w=400&h=180&fit=crop"
+                alt="News 3"
+                class="news-card-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 180%22%3E%3Crect fill=%22%23272727%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="news-card-content">
+                <span class="news-card-category">Security</span>
+                <h3 class="news-card-title">
+                  New Cybersecurity Threats Emerge, Expert Response Required
+                </h3>
+                <p class="news-card-desc">
+                  Security researchers warn about emerging vulnerabilities and
+                  recommend immediate action for organizations to strengthen
+                  their defenses.
+                </p>
+                <div class="news-card-footer">
+                  <span>March 5, 2024</span>
+                  <a href="#" class="read-more-btn"
+                    >Read More <i class="fa-solid fa-arrow-right"></i
+                  ></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-card" data-category="ai">
+              <img
+                src="https://images.unsplash.com/photo-1677442d019cecf8978f0a5e551a3b9b4c2a1a1a?w=400&h=180&fit=crop"
+                alt="News 4"
+                class="news-card-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 180%22%3E%3Crect fill=%22%23272727%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="news-card-content">
+                <span class="news-card-category">AI/ML</span>
+                <h3 class="news-card-title">
+                  Machine Learning in Healthcare: Saving Lives with Technology
+                </h3>
+                <p class="news-card-desc">
+                  Hospitals worldwide are implementing ML algorithms to improve
+                  diagnosis accuracy and patient outcomes significantly.
+                </p>
+                <div class="news-card-footer">
+                  <span>March 1, 2024</span>
+                  <a href="#" class="read-more-btn"
+                    >Read More <i class="fa-solid fa-arrow-right"></i
+                  ></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="news-card" data-category="web">
+              <img
+                src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=400&h=180&fit=crop"
+                alt="News 5"
+                class="news-card-image"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 180%22%3E%3Crect fill=%22%23272727%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23a8a8a8%22%3ENews Image%3C/text%3E%3C/svg%3E'
+                "
+              />
+              <div class="news-card-content">
+                <span class="news-card-category">Web Dev</span>
+                <h3 class="news-card-title">
+                  WebAssembly: The Future of High-Performance Web Apps
+                </h3>
+                <p class="news-card-desc">
+                  WebAssembly is enabling developers to run high-performance
+                  applications directly in the browser with near-native speeds.
+                </p>
+                <div class="news-card-footer">
+                  <span>February 28, 2024</span>
+                  <a href="#" class="read-more-btn"
+                    >Read More <i class="fa-solid fa-arrow-right"></i
+                  ></a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="pagination-btn" onclick="goToPage(1)" title="First">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="pagination-btn active" onclick="goToPage(1)">
+              1
+            </button>
+            <button class="pagination-btn" onclick="goToPage(2)">2</button>
+            <button class="pagination-btn" onclick="goToPage(3)">3</button>
+            <button class="pagination-btn" onclick="goToPage(2)" title="Next">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ========== MENU TOGGLE ==========
+      const menuToggle = document.getElementById("menuToggle");
+      const sidenav = document.getElementById("sidenav");
+
+      menuToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidenav.classList.toggle("mobile-visible");
+        menuToggle.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!sidenav.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidenav.classList.remove("mobile-visible");
+          menuToggle.classList.remove("active");
+        }
+      });
+
+      // Close sidebar on link click (mobile)
+      sidenav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", function () {
+          if (window.innerWidth <= 768) {
+            sidenav.classList.remove("mobile-visible");
+            menuToggle.classList.remove("active");
+          }
+        });
+      });
+
+      // ========== SEARCH SUGGESTIONS ==========
+      document
+        .getElementById("searchBar")
+        .addEventListener("input", function () {
+          const query = this.value;
+          if (query.length > 1) {
+            fetch(`/search-suggestions/?term=${encodeURIComponent(query)}`)
+              .then((response) => response.json())
+              .then((data) => {
+                const suggestionBox = document.getElementById("suggestions");
+                suggestionBox.innerHTML = "";
+                if (data.length > 0) {
+                  data.forEach((title) => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = title;
+                    listItem.addEventListener("click", () => {
+                      document.getElementById("searchBar").value = title;
+                      suggestionBox.innerHTML = "";
+                    });
+                    suggestionBox.appendChild(listItem);
+                  });
+                }
+              })
+              .catch((err) => console.error("Search error:", err));
+          } else {
+            document.getElementById("suggestions").innerHTML = "";
+          }
+        });
+
+      // Close suggestions when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".search")) {
+          document.getElementById("suggestions").innerHTML = "";
+        }
+      });
+
+      // ========== NEWS FILTERING ==========
+      function filterNews(category) {
+        // Update active button
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Filter articles
+        const articles = document.querySelectorAll(".news-card");
+        articles.forEach((article) => {
+          if (category === "all" || article.dataset.category === category) {
+            article.style.display = "block";
+            setTimeout(() => {
+              article.style.animation = "fadeIn 0.6s ease-in-out";
+            }, 0);
+          } else {
+            article.style.display = "none";
+          }
+        });
+      }
+
+      // ========== PAGINATION ==========
+      function goToPage(page) {
+        console.log("Going to page:", page);
+        document.querySelectorAll(".pagination-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Scroll to top of news section
+        document.querySelector(".news-container").scrollTop = 0;
+      }
+
+      // ========== SMOOTH SCROLL ==========
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

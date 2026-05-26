@@ -1,0 +1,7 @@
+Django==5.0
+requests
+google-generativeai
+python-dotenv
+djangorestframework
+Pillow
+beautifulsoup4

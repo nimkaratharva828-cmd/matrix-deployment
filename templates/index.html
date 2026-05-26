@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/static/img/dot_matrix.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Matrix</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #212121;
+        --accent-color: #ff0000;
+        --text-primary: #ffffff;
+        --text-secondary: #a8a8a8;
+        --border-color: #272727;
+        --hover-bg: #272727;
+        --card-bg: #1a1a1a;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .main-container {
+        display: flex;
+        flex: 1;
+      }
+
+      /* ========== HEADER ========== */
+      .header {
+        background: var(--primary-color);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(15, 15, 15, 0.95);
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 30px;
+        height: 65px;
+      }
+
+      .menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      .menu.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ========== SEARCH BAR ========== */
+      .search {
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 8px 15px;
+        gap: 12px;
+        flex: 0 1 400px;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .search:focus-within {
+        background: var(--secondary-color);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+      }
+
+      .seainp {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        flex: 1;
+        padding: 8px 0;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .seabtt:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(255, 0, 0, 0.3);
+      }
+
+      /* ========== SUGGESTIONS DROPDOWN ========== */
+      .suggestion-list {
+        list-style: none;
+        padding: 8px 0;
+        margin: 0;
+        border: 1px solid var(--border-color);
+        position: absolute;
+        background: var(--secondary-color);
+        z-index: 1001;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 8px;
+        border-radius: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      }
+
+      .suggestion-list li {
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+      }
+
+      .suggestion-list li:hover {
+        background-color: var(--hover-bg);
+        border-left-color: var(--accent-color);
+        padding-left: 16px;
+      }
+
+      /* ========== LOGIN BUTTON ========== */
+      .cy {
+        display: flex;
+        align-items: center;
+      }
+
+      .cy ul {
+        list-style-type: none;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .cy a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        transition: var(--transition);
+        font-size: 18px;
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== SIDEBAR ========== */
+      .sidenav {
+        display: flex;
+        flex-direction: column;
+        width: 260px;
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        padding: 20px 0;
+        overflow-y: auto;
+        height: auto;
+      }
+
+      .sidenav .icon {
+        flex: 1;
+        padding: 0 10px;
+      }
+
+      .sidenav .icon ul {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .sidenav .icon a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 16px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: var(--transition);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .sidenav .icon a:hover {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+        padding-left: 20px;
+      }
+
+      .sidenav .icon a i {
+        font-size: 18px;
+        width: 24px;
+      }
+
+      .sidenav .sett {
+        padding: 20px 10px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+      }
+
+      .sidenav .sett ul {
+        list-style-type: none;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .sidenav .sett a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--hover-bg);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 16px;
+      }
+
+      .sidenav .sett a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* ========== MAIN CONTENT ========== */
+      .home {
+        flex: 1;
+        padding: 40px 40px;
+        width: 100%;
+        overflow-y: auto;
+      }
+
+      .block-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+        animation: fadeIn 0.6s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ========== CARD ========== */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .card:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-8px);
+        box-shadow: 0 16px 32px rgba(255, 0, 0, 0.15);
+      }
+
+      .card .img {
+        position: relative;
+        width: 100%;
+        height: 135px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #1a1a1a 0%, #272727 100%);
+      }
+
+      .card .img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+      }
+
+      .card:hover .img img {
+        transform: scale(1.08);
+      }
+
+      .card .img::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0);
+        transition: var(--transition);
+      }
+
+      .card:hover .img::after {
+        background: rgba(255, 0, 0, 0.05);
+      }
+
+      .imgmeta {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+
+      .title h2 {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: var(--text-primary);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .card:hover .title h2 {
+        color: var(--accent-color);
+      }
+
+      .date {
+        font-size: 12px;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .date::before {
+        content: "📅";
+        font-size: 11px;
+      }
+
+      /* ========== MOBILE SIDEBAR OVERLAY ========== */
+      .sidenav.mobile-visible {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 240px;
+        height: calc(100vh - 65px);
+        z-index: 999;
+        animation: slideInLeft 0.3s ease-out;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 768px) {
+        .main-container {
+          flex-direction: column;
+        }
+
+        .topnav {
+          padding: 12px 12px;
+          gap: 12px;
+        }
+
+        .menu {
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .search {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .seainp {
+          font-size: 13px;
+        }
+
+        .seabtt {
+          padding: 6px 14px;
+          font-size: 12px;
+        }
+
+        .cy {
+          margin-left: auto;
+        }
+
+        .sidenav {
+          display: none;
+        }
+
+        .sidenav.mobile-visible {
+          display: flex;
+        }
+
+        .home {
+          padding: 20px 12px;
+        }
+
+        .block-card {
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 12px;
+        }
+
+        .card .img {
+          height: 100px;
+        }
+
+        .imgmeta {
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .title h2 {
+          font-size: 13px;
+        }
+
+        .date {
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .topnav {
+          gap: 8px;
+        }
+
+        .search {
+          flex: 1;
+        }
+
+        .home {
+          padding: 15px 8px;
+        }
+
+        .block-card {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 10px;
+        }
+
+        .card .img {
+          height: 90px;
+        }
+
+        .imgmeta {
+          padding: 10px;
+        }
+
+        .title h2 {
+          font-size: 12px;
+        }
+      }
+
+      /* ========== SCROLLBAR ========== */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+      }
+
+      /* ========== EMPTY STATE ========== */
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;
+        gap: 20px;
+        color: var(--text-secondary);
+      }
+
+      .empty-state i {
+        font-size: 60px;
+        opacity: 0.3;
+      }
+
+      .empty-state p {
+        font-size: 16px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu" id="menuToggle">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <form method="get" action="">
+            <div class="search">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: var(--text-secondary); font-size: 14px"
+              ></i>
+              <input
+                class="seainp"
+                id="searchBar"
+                name="search"
+                type="search"
+                placeholder="Search videos..."
+              />
+              <ul id="suggestions" class="suggestion-list"></ul>
+              <button class="seabtt" type="submit">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="{% url 'login' %}" title="Sign In">
+                  <i class="fa-solid fa-user"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <aside class="sidenav" id="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user-circle"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Upload</span>
+                </a>
+              </li>
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Chat-Bot</span>
+                </a>
+              </li>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  <span>News</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info" title="Info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting" title="Settings">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <main class="home">
+          <div class="block-card">
+            {% for n in humeData %}
+            <div class="card">
+              <a href="{% url 'video_detail' n.id %}">
+                <div class="img">
+                  <img
+                    src="{{ n.thumbnail_image.url }}"
+                    alt="{{ n.title }} Thumbnail"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="imgmeta">
+                  <div class="title"><h2>{{ n.title }}</h2></div>
+                  <div class="date">{{ n.dinak }}</div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          {% if not humeData %}
+          <div class="empty-state">
+            <i class="fa-solid fa-inbox"></i>
+            <p>No videos found. Check back later!</p>
+          </div>
+          {% endif %}
+        </main>
+      </div>
+    </div>
+
+    <script>
+      // ========== MENU TOGGLE ==========
+      const menuToggle = document.getElementById("menuToggle");
+      const sidenav = document.getElementById("sidenav");
+
+      menuToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidenav.classList.toggle("mobile-visible");
+        menuToggle.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!sidenav.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidenav.classList.remove("mobile-visible");
+          menuToggle.classList.remove("active");
+        }
+      });
+
+      // Close sidebar on link click (mobile)
+      sidenav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", function () {
+          if (window.innerWidth <= 768) {
+            sidenav.classList.remove("mobile-visible");
+            menuToggle.classList.remove("active");
+          }
+        });
+      });
+
+      // ========== SEARCH SUGGESTIONS ==========
+      document
+        .getElementById("searchBar")
+        .addEventListener("input", function () {
+          const query = this.value;
+          if (query.length > 1) {
+            fetch(`/search-suggestions/?term=${encodeURIComponent(query)}`)
+              .then((response) => response.json())
+              .then((data) => {
+                const suggestionBox = document.getElementById("suggestions");
+                suggestionBox.innerHTML = "";
+                if (data.length > 0) {
+                  data.forEach((title) => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = title;
+                    listItem.addEventListener("click", () => {
+                      document.getElementById("searchBar").value = title;
+                      suggestionBox.innerHTML = "";
+                    });
+                    suggestionBox.appendChild(listItem);
+                  });
+                }
+              })
+              .catch((err) => console.error("Search error:", err));
+          } else {
+            document.getElementById("suggestions").innerHTML = "";
+          }
+        });
+
+      // Close suggestions when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".search")) {
+          document.getElementById("suggestions").innerHTML = "";
+        }
+      });
+
+      // ========== SMOOTH SCROLL ==========
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // ========== LAZY LOADING ==========
+      if ("IntersectionObserver" in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.removeAttribute("data-src");
+              }
+              observer.unobserve(img);
+            }
+          });
+        });
+
+        document.querySelectorAll("img").forEach((img) => {
+          imageObserver.observe(img);
+        });
+      }
+    </script>
+  </body>
+</html>

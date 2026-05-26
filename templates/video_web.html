@@ -1,0 +1,867 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Matrix</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <form action="">
+            <div class="search">
+              <input class="seainp" type="search" placeholder="Search Here" />
+              <button class="seabtt" type="submit">Search</button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="/login">
+                  <i class="fa-solid fa-right-to-bracket" style="color:red;padding-top:1.3vh;padding-left:1.5vh" style="align:center;"></i>
+                </a>
+              </li>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <aside class="sidenav">
+          <div class="icon">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house" style="color: #ffffff"></i>Home
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-tornado" style="color: #ffffff"></i>
+                  Profile
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-upload" style="color: #ffffff"></i>
+                  Upload
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-brain" style="color: #ffffff;"></i>
+                  Chat-Boot
+                </a>
+              </li>
+              <br>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper" style="color: #ffffff"></i>
+                  News
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i
+                    class="fa-regular fa-clock fa-rotate-180"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting">
+                  <i
+                    class="fa-solid fa-gear fa-rotate-90"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </header>
+
+      <div class="video">
+        <div class="video_1">
+            <div class="videos">
+                <!-- Video Display -->
+                <video controls>
+                    <source src="{{ videoshown_web.video_file.url }}" type="video/mp4">
+                </video>
+            </div>
+            <hr />
+            <div class="title_i">
+                <div class="title_1">
+                    <div class="title_2">
+                        <h2>{{ videoshown_web.title }}</h2>
+                    </div>
+                    <!-- Add the arrow_dropdown icon here -->
+                    <div class="icon_1" onclick="article()" ondblclick="article_9()">
+                        <span id="arrowIcon" class="material-symbols-outlined">See Article</span>
+                    </div>
+                </div>
+                <div class="date_i">{{ videoshown_web.date|date:"F j, Y" }}</div>
+            </div>
+        </div>
+    
+        <div class="article" id="articalrrr">
+            <h2>Related Article</h2>
+            <p>{{ videoshown_web.text|default:"No description available"|safe }}</p>
+        </div>
+    
+        <div class="relatedv" id="relatedv1">
+            <h2>Related Image</h2>
+            {% if videoshown_web.image %}
+                <img src="{{ videoshown_web.image.url }}" alt="Video Image">
+            {% else %}
+                <p>No related image available</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    
+    
+      
+      
+
+
+
+
+    </div>
+
+    <script>
+      function article() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+    
+        // Move article into view when it's opened
+        article.style.transform = "translateY(50vh)";
+        article.style.position = "relative";
+        article.style.zIndex = "9";
+        video_55.style.transform = "translateY(53.9vh)";  // Adjust related video position
+    
+        // Change the icon to 'up' when article is open
+        icon.textContent = "Double Click To Hide";
+    }
+    
+    function article_9() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+    
+        // Move article out of view when it's closed
+        article.style.transform = "translateY(-50vh)";
+        article.style.position = "relative";
+        article.style.zIndex = "-9";
+        video_55.style.transform = "translateY(0.1vh)";  // Reset related video position
+    
+        // Change the icon to 'down' when article is closed
+        icon.textContent = "See Article";
+    }
+    </script>
+  </body>
+</html> {% endcomment %}
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <title>Matrix</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #181818;
+        --card-bg: #202020;
+        --border-color: #2f2f2f;
+        --hover-bg: #2a2a2a;
+        --text-primary: #ffffff;
+        --text-secondary: #aaaaaa;
+        --accent-color: #ff0000;
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--primary-color);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* HEADER */
+
+      .header {
+        width: 100%;
+        height: 70px;
+        background: rgba(15, 15, 15, 0.96);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .topnav {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        gap: 20px;
+      }
+
+      .left-nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .menu {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+      }
+
+      .logo span {
+        color: var(--accent-color);
+      }
+
+      /* SEARCH */
+
+      .search-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .search {
+        width: 100%;
+        max-width: 650px;
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 30px;
+        overflow: hidden;
+      }
+
+      .search:focus-within {
+        border-color: var(--accent-color);
+      }
+
+      .seainp {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 18px;
+        font-size: 15px;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        width: 65px;
+        height: 48px;
+        border: none;
+        background: var(--hover-bg);
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .seabtt:hover {
+        background: var(--accent-color);
+      }
+
+      /* LOGIN */
+
+      .cy ul {
+        list-style: none;
+      }
+
+      .cy a {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+      }
+
+      /* MAIN */
+
+      .main-layout {
+        display: flex;
+      }
+
+      /* SIDEBAR */
+
+      .sidenav {
+        width: 250px;
+        min-height: calc(100vh - 70px);
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        padding: 20px 10px;
+        position: sticky;
+        top: 70px;
+      }
+
+      .icon ul {
+        list-style: none;
+      }
+
+      .icon ul li {
+        margin-bottom: 8px;
+      }
+
+      .icon ul li a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: var(--text-secondary);
+        padding: 14px 16px;
+        border-radius: 12px;
+        transition: var(--transition);
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .icon ul li a:hover {
+        background: var(--hover-bg);
+        color: white;
+      }
+
+      .icon ul li a i {
+        width: 22px;
+        font-size: 18px;
+      }
+
+      .sett {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .sett ul {
+        list-style: none;
+        display: flex;
+        gap: 10px;
+      }
+
+      .sett a {
+        width: 42px;
+        height: 42px;
+        background: var(--hover-bg);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .sett a:hover {
+        background: var(--accent-color);
+      }
+
+      /* VIDEO SECTION */
+
+      .video-page {
+        flex: 1;
+        padding: 28px;
+      }
+
+      .video-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 28px;
+      }
+
+      .video-left {
+        width: 100%;
+      }
+
+      .video-player {
+        width: 100%;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 22px;
+        overflow: hidden;
+      }
+
+      .video-player video {
+        width: 100%;
+        height: 75vh;
+        background: black;
+      }
+
+      .video-details {
+        margin-top: 18px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 22px;
+      }
+
+      .video-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 14px;
+      }
+
+      .video-title-row h2 {
+        font-size: 28px;
+        line-height: 1.4;
+        font-weight: 700;
+        color: white;
+      }
+
+      .article-btn {
+        background: var(--hover-bg);
+        border: 1px solid var(--border-color);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .article-btn:hover {
+        background: var(--accent-color);
+      }
+
+      .video-date {
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      /* ARTICLE */
+
+      .article {
+        margin-top: 22px;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 24px;
+        transition: 0.4s ease;
+      }
+
+      .article h2 {
+        margin-bottom: 18px;
+        font-size: 22px;
+      }
+
+      .article-content {
+        color: var(--text-secondary);
+        line-height: 1.9;
+        font-size: 15px;
+      }
+
+      .article-content p {
+        margin-bottom: 16px;
+      }
+
+      .article-content img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin-top: 10px;
+      }
+
+      /* RELATED IMAGE */
+
+      .relatedv {
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 20px;
+        height: fit-content;
+        position: sticky;
+        top: 95px;
+      }
+
+      .relatedv h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+
+      .relatedv img {
+        width: 100%;
+        border-radius: 18px;
+        object-fit: cover;
+      }
+
+      .relatedv p {
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 1100px) {
+        .video-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .relatedv {
+          position: relative;
+          top: 0;
+        }
+
+        .video-player video {
+          height: 55vh;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .sidenav {
+          display: none;
+        }
+
+        .video-page {
+          padding: 18px;
+        }
+
+        .video-player video {
+          height: 42vh;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .topnav {
+          gap: 10px;
+          padding: 0 12px;
+        }
+
+        .logo {
+          font-size: 18px;
+        }
+
+        .video-title-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .video-title-row h2 {
+          font-size: 22px;
+        }
+
+        .video-player video {
+          height: 250px;
+        }
+      }
+
+      /* SCROLLBAR */
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <!-- HEADER -->
+
+      <header class="header">
+        <div class="topnav">
+          <div class="left-nav">
+            <div class="menu">
+              <i class="fa-solid fa-bars" style="color: white"></i>
+            </div>
+
+            <div class="logo">MAT<span>RIX</span></div>
+          </div>
+
+          <div class="search-wrapper">
+            <form action="" style="width: 100%">
+              <div class="search">
+                <input
+                  class="seainp"
+                  type="search"
+                  placeholder="Search videos..."
+                />
+
+                <button class="seabtt" type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="/login">
+                  <i class="fa-solid fa-user" style="color: white"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN -->
+
+      <div class="main-layout">
+        <!-- SIDEBAR -->
+
+        <aside class="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user"></i>
+                  Profile
+                </a>
+              </li>
+
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  Upload
+                </a>
+              </li>
+
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  Chat-Boot
+                </a>
+              </li>
+
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  News
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="/setting">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- VIDEO PAGE -->
+
+        <main class="video-page">
+          <div class="video-layout">
+
+            <!-- LEFT -->
+
+            <div class="video-left">
+
+              <div class="video-player">
+                <video controls>
+                  <source
+                    src="{{ videoshown_web.video_file.url }}"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+
+              <div class="video-details">
+                <div class="video-title-row">
+
+                  <h2>{{ videoshown_web.title }}</h2>
+
+                  <div
+                    class="article-btn"
+                    onclick="article()"
+                    ondblclick="article_9()"
+                  >
+                    <span id="arrowIcon">See Article</span>
+                  </div>
+
+                </div>
+
+                <div class="video-date">
+                  {{ videoshown_web.date|date:"F j, Y" }}
+                </div>
+              </div>
+
+              <!-- ARTICLE -->
+
+              <div class="article" id="articalrrr">
+
+                <h2>Related Article</h2>
+
+                <div class="article-content">
+                  {{ videoshown_web.text|default:"No description available"|safe }}
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="relatedv" id="relatedv1">
+
+              <h2>Related Image</h2>
+
+              {% if videoshown_web.image %}
+
+              <img
+                src="{{ videoshown_web.image.url }}"
+                alt="Video Image"
+              />
+
+              {% else %}
+
+              <p>No related image available</p>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function article() {
+        let article = document.getElementById("articalrrr");
+        let icon = document.getElementById("arrowIcon");
+
+        article.style.display = "block";
+        article.style.opacity = "1";
+        article.style.transform = "translateY(0px)";
+
+        icon.textContent = "Double Click To Hide";
+      }
+
+      function article_9() {
+        let article = document.getElementById("articalrrr");
+        let icon = document.getElementById("arrowIcon");
+
+        article.style.opacity = "0";
+        article.style.transform = "translateY(-20px)";
+
+        setTimeout(() => {
+          article.style.display = "none";
+        }, 300);
+
+        icon.textContent = "See Article";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="icon" type="image/x-icon" href="/static/img/dot_matrix.png" />
+
+    <title>Info - Matrix</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #212121;
+        --accent-color: #ff0000;
+        --text-primary: #ffffff;
+        --text-secondary: #a8a8a8;
+        --border-color: #272727;
+        --hover-bg: #272727;
+        --card-bg: #1a1a1a;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: var(--text-primary);
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .main-container {
+        display: flex;
+        flex: 1;
+      }
+
+      /* HEADER */
+
+      .header {
+        background: rgba(15, 15, 15, 0.95);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 30px;
+        height: 65px;
+      }
+
+      .menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 8px;
+        transition: var(--transition);
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      /* SEARCH */
+
+      .search {
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 8px 15px;
+        gap: 12px;
+        flex: 0 1 400px;
+        transition: var(--transition);
+      }
+
+      .search:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+      }
+
+      .seainp {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        flex: 1;
+        font-size: 14px;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        background: var(--accent-color);
+        border: none;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .seabtt:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+      }
+
+      /* LOGIN */
+
+      .cy ul {
+        list-style: none;
+      }
+
+      .cy a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--secondary-color);
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.08);
+      }
+
+      /* SIDEBAR */
+
+      .sidenav {
+        width: 260px;
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0;
+      }
+
+      .icon {
+        flex: 1;
+        padding: 0 10px;
+      }
+
+      .icon ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .icon a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 13px 16px;
+        border-radius: 10px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .icon a:hover {
+        background: var(--hover-bg);
+        color: white;
+        padding-left: 22px;
+      }
+
+      .icon a i {
+        width: 24px;
+        font-size: 18px;
+      }
+
+      .sett {
+        padding: 20px 10px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .sett ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .sett a {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--hover-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .sett a:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* MOBILE */
+
+      .sidenav.mobile-visible {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 240px;
+        height: calc(100vh - 65px);
+        z-index: 999;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* INFO PAGE */
+
+      .info-container {
+        flex: 1;
+        padding: 40px;
+      }
+
+      .info-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 40px;
+        max-width: 1100px;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .page-title {
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 30px;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          var(--accent-color) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .section {
+        margin-bottom: 35px;
+      }
+
+      .section h2 {
+        font-size: 22px;
+        margin-bottom: 14px;
+        color: var(--accent-color);
+      }
+
+      .section h3 {
+        font-size: 18px;
+        margin-bottom: 14px;
+        color: white;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        line-height: 1.9;
+        font-size: 15px;
+      }
+
+      .section ul {
+        padding-left: 20px;
+      }
+
+      .section ul li {
+        margin-bottom: 12px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      .section strong {
+        color: white;
+      }
+
+      .developer-box {
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 14px;
+        background: rgba(255, 0, 0, 0.05);
+        border: 1px solid rgba(255, 0, 0, 0.15);
+      }
+
+      .developer-box h4 {
+        margin-bottom: 10px;
+        color: var(--accent-color);
+      }
+
+      .developer-box p {
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      /* SCROLLBAR */
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 768px) {
+        .menu {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .topnav {
+          padding: 12px;
+          gap: 12px;
+        }
+
+        .search {
+          flex: 1;
+        }
+
+        .sidenav {
+          display: none;
+        }
+
+        .sidenav.mobile-visible {
+          display: flex;
+        }
+
+        .info-container {
+          padding: 20px;
+        }
+
+        .info-card {
+          padding: 25px;
+        }
+
+        .page-title {
+          font-size: 26px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .info-container {
+          padding: 15px;
+        }
+
+        .info-card {
+          padding: 20px;
+        }
+
+        .page-title {
+          font-size: 22px;
+        }
+
+        .section h2 {
+          font-size: 18px;
+        }
+
+        .section p,
+        .section ul li {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu" id="menuToggle">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+
+          <form action="">
+            <div class="search">
+              <i
+                class="fa-solid fa-magnifying-glass"
+                style="color: var(--text-secondary)"
+              ></i>
+
+              <input
+                class="seainp"
+                type="search"
+                placeholder="Search videos..."
+              />
+
+              <button class="seabtt" type="submit">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="/login">
+                  <i class="fa-solid fa-user"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <aside class="sidenav" id="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user-circle"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Upload</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Chat-Bot</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  <span>News</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="/setting">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="info-container">
+          <div class="info-card">
+            <h1 class="page-title">Project Information</h1>
+
+            <div class="section">
+              <h2>Project Name: Matrix</h2>
+
+              <p>
+                Matrix is a modern Django-based web application designed for
+                content management, user authentication, personalized learning,
+                video uploads, and dynamic content interaction.
+              </p>
+            </div>
+
+            <div class="section">
+              <h3>Description</h3>
+
+              <p>
+                The Matrix project is a Django-based web application designed
+                with user authentication, video and text content management, and
+                session handling. It incorporates features like user
+                registration, login, session management, and a personalized
+                profile page for logged-in users.
+              </p>
+            </div>
+
+            <div class="section">
+              <h3>Key Features</h3>
+
+              <ul>
+                <li>
+                  <strong>User Authentication:</strong>
+                  Custom login/signup pages, validation for registration, and
+                  session-based access.
+                </li>
+
+                <li>
+                  <strong>Content Management:</strong>
+                  Users upload videos and PDFs, while admins manage exclusive
+                  content.
+                </li>
+
+                <li>
+                  <strong>News Integration:</strong>
+                  Fetches and displays news articles dynamically.
+                </li>
+
+                <li>
+                  <strong>Profile Page:</strong>
+                  User-specific data displayed after login.
+                </li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Current Functionalities</h3>
+
+              <ul>
+                <li>Login system with session-based authentication.</li>
+
+                <li>News API integration for dynamic updates.</li>
+
+                <li>Profile page secured with login requirements.</li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Future Enhancements</h3>
+
+              <ul>
+                <li>
+                  Machine learning for personalized content recommendations.
+                </li>
+
+                <li>Improved UI/UX and interactive features.</li>
+
+                <li>Advanced profile management with update features.</li>
+              </ul>
+            </div>
+
+            <div class="developer-box">
+              <h4>Developer Information</h4>
+
+              <p>
+                <strong>Attn: Atharva Nimkar</strong><br />
+                Resident Grievance Officer for Matrix
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const menuToggle = document.getElementById("menuToggle");
+      const sidenav = document.getElementById("sidenav");
+
+      menuToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidenav.classList.toggle("mobile-visible");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!sidenav.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidenav.classList.remove("mobile-visible");
+        }
+      });
+
+      sidenav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", function () {
+          if (window.innerWidth <= 768) {
+            sidenav.classList.remove("mobile-visible");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

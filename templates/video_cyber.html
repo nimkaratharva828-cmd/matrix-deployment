@@ -1,0 +1,868 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Matrix</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <header class="header">
+        <div class="topnav">
+          <div class="menu">
+            <i class="fa-solid fa-bars" style="color: #ffffff"></i>
+          </div>
+          <form action="">
+            <div class="search">
+              <input class="seainp" type="search" placeholder="Search Here" />
+              <button class="seabtt" type="submit">Search</button>
+            </div>
+          </form>
+          <div class="cy">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="/login">
+                  <i class="fa-solid fa-right-to-bracket" style="color:red;padding-top:1.3vh;padding-left:1.5vh" style="align:center;"></i>
+                </a>
+              </li>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <aside class="sidenav">
+          <div class="icon">
+            <ul style="list-style-type: none">
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house" style="color: #ffffff"></i>Home
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-tornado" style="color: #ffffff"></i>
+                  Profile
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-upload" style="color: #ffffff"></i>
+                  Upload
+                </a>
+              </li>
+              <br />
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-brain" style="color: #ffffff;"></i>
+                  Chat-Boot
+                </a>
+              </li>
+              <br>
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper" style="color: #ffffff"></i>
+                  News
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i
+                    class="fa-regular fa-clock fa-rotate-180"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+              <li>
+                <a href="/setting">
+                  <i
+                    class="fa-solid fa-gear fa-rotate-90"
+                    style="color: #ffffff"
+                  ></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </header>
+
+      <div class="video">
+        <div class="video_1">
+            <div class="videos">
+                <!-- Video Display -->
+                <video controls>
+                    <source src="{{ videoshown_cyber.video_file.url }}" type="video/mp4">
+                </video>
+            </div>
+            <hr />
+            <div class="title_i">
+                <div class="title_1">
+                    <div class="title_2">
+                        <h2>{{ videoshown_cyber.title }}</h2>
+                    </div>
+                    <!-- Add the arrow_dropdown icon here -->
+                    <div class="icon_1" onclick="article()" ondblclick="article_9()">
+                        <span id="arrowIcon" class="material-symbols-outlined">See Article</span>
+                    </div>
+                </div>
+                <div class="date_i">{{ videoshown_cyber.date|date:"F j, Y" }}</div>
+            </div>
+        </div>
+    
+        <div class="article" id="articalrrr">
+            <h2>Related Article</h2>
+            <p>{{ videoshown_cyber.text|default:"No description available"|safe }}</p>
+        </div>
+    
+        <div class="relatedv" id="relatedv1">
+            <h2>Related Image</h2>
+            {% if videoshown_cyber.image %}
+                <img src="{{ videoshown_cyber.image.url }}" alt="Video Image">
+            {% else %}
+                <p>No related image available</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    
+    
+      
+      
+
+
+
+
+    </div>
+
+    <script>
+      function article() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+    
+        // Move article into view when it's opened
+        article.style.transform = "translateY(50vh)";
+        article.style.position = "relative";
+        article.style.zIndex = "9";
+        video_55.style.transform = "translateY(53.9vh)";  // Adjust related video position
+    
+        // Change the icon to 'up' when article is open
+        icon.textContent = "Double Click To Hide";
+    }
+    
+    function article_9() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+    
+        // Move article out of view when it's closed
+        article.style.transform = "translateY(-50vh)";
+        article.style.position = "relative";
+        article.style.zIndex = "-9";
+        video_55.style.transform = "translateY(0.1vh)";  // Reset related video position
+    
+        // Change the icon to 'down' when article is closed
+        icon.textContent = "See Article";
+    }
+    </script>
+  </body>
+</html> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <title>Matrix</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #181818;
+        --card-bg: #202020;
+        --border-color: #2f2f2f;
+        --hover-bg: #2a2a2a;
+        --text-primary: #ffffff;
+        --text-secondary: #aaaaaa;
+        --accent-color: #ff003c;
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(circle at top, #161616, #0b0b0b 70%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* HEADER */
+
+      .header {
+        width: 100%;
+        height: 72px;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .topnav {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        gap: 22px;
+      }
+
+      .left-nav {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .menu {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .menu:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+
+      .logo span {
+        color: var(--accent-color);
+      }
+
+      /* SEARCH */
+
+      .search-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .search {
+        width: 100%;
+        max-width: 680px;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 40px;
+        overflow: hidden;
+      }
+
+      .search:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px rgba(255, 0, 60, 0.12);
+      }
+
+      .seainp {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 15px 20px;
+        font-size: 15px;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        width: 68px;
+        height: 52px;
+        border: none;
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+      }
+
+      .seabtt:hover {
+        background: var(--accent-color);
+      }
+
+      /* LOGIN */
+
+      .cy ul {
+        list-style: none;
+      }
+
+      .cy a {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+      }
+
+      /* MAIN */
+
+      .main-layout {
+        display: flex;
+      }
+
+      /* SIDEBAR */
+
+      .sidenav {
+        width: 255px;
+        min-height: calc(100vh - 72px);
+        background: rgba(18, 18, 18, 0.96);
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 22px 12px;
+        position: sticky;
+        top: 72px;
+      }
+
+      .icon ul {
+        list-style: none;
+      }
+
+      .icon ul li {
+        margin-bottom: 10px;
+      }
+
+      .icon ul li a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 18px;
+        border-radius: 14px;
+        color: var(--text-secondary);
+        font-size: 15px;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .icon ul li a:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+        transform: translateX(4px);
+      }
+
+      .icon ul li a i {
+        width: 22px;
+        font-size: 18px;
+      }
+
+      .sett {
+        margin-top: 30px;
+        padding-top: 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .sett ul {
+        list-style: none;
+        display: flex;
+        gap: 12px;
+      }
+
+      .sett a {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .sett a:hover {
+        background: var(--accent-color);
+      }
+
+      /* CONTENT */
+
+      .content-area {
+        flex: 1;
+        padding: 30px;
+      }
+
+      .video-layout {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+      }
+
+      /* VIDEO PLAYER */
+
+      .video-player {
+        width: 100%;
+        border-radius: 22px;
+        overflow: hidden;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .video-player video {
+        width: 100%;
+        display: block;
+      }
+
+      /* VIDEO INFO */
+
+      .video-details {
+        margin-top: 22px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 22px;
+        padding: 24px;
+      }
+
+      .video-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .video-title h2 {
+        font-size: 28px;
+        line-height: 1.4;
+        font-weight: 700;
+      }
+
+      .video-date {
+        margin-top: 12px;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .article-btn {
+        min-width: 180px;
+        height: 50px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .article-btn:hover {
+        background: var(--accent-color);
+        transform: translateY(-2px);
+      }
+
+      /* ARTICLE */
+
+      .article {
+        margin-top: 26px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 22px;
+        padding: 26px;
+        transition: var(--transition);
+      }
+
+      .article h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+
+      .article p {
+        color: var(--text-secondary);
+        line-height: 1.9;
+        font-size: 15px;
+      }
+
+      /* RELATED */
+
+      .relatedv {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 22px;
+        padding: 22px;
+        height: fit-content;
+        position: sticky;
+        top: 95px;
+      }
+
+      .relatedv h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+
+      .relatedv img {
+        width: 100%;
+        border-radius: 18px;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: var(--transition);
+      }
+
+      .relatedv img:hover {
+        transform: scale(1.02);
+      }
+
+      .relatedv p {
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 1100px) {
+        .video-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .relatedv {
+          position: relative;
+          top: 0;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .sidenav {
+          display: none;
+        }
+
+        .content-area {
+          padding: 18px;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .video-title-row {
+          flex-direction: column;
+        }
+
+        .article-btn {
+          width: 100%;
+        }
+
+        .video-title h2 {
+          font-size: 22px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .topnav {
+          gap: 10px;
+          padding: 0 12px;
+        }
+
+        .content-area {
+          padding: 12px;
+        }
+
+        .video-details,
+        .article,
+        .relatedv {
+          padding: 18px;
+          border-radius: 18px;
+        }
+
+        .video-player {
+          border-radius: 18px;
+        }
+      }
+
+      /* SCROLLBAR */
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <!-- HEADER -->
+
+      <header class="header">
+        <div class="topnav">
+          <div class="left-nav">
+            <div class="menu">
+              <i class="fa-solid fa-bars" style="color: white"></i>
+            </div>
+
+            <div class="logo">MAT<span>RIX</span></div>
+          </div>
+
+          <div class="search-wrapper">
+            <form action="" style="width: 100%">
+              <div class="search">
+                <input
+                  class="seainp"
+                  type="search"
+                  placeholder="Search videos..."
+                />
+
+                <button class="seabtt" type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="/login">
+                  <i class="fa-solid fa-user" style="color: white"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN -->
+
+      <div class="main-layout">
+        <!-- SIDEBAR -->
+
+        <aside class="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user"></i>
+                  Profile
+                </a>
+              </li>
+
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  Upload
+                </a>
+              </li>
+
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  Chat-Bot
+                </a>
+              </li>
+
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  News
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="/setting">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- CONTENT -->
+
+        <main class="content-area">
+          <div class="video-layout">
+            <!-- LEFT -->
+
+            <div class="video-section">
+              <div class="video-player">
+                <video controls>
+                  <source
+                    src="{{ videoshown_cyber.video_file.url }}"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+
+              <div class="video-details">
+                <div class="video-title-row">
+                  <div class="video-title">
+                    <h2>{{ videoshown_cyber.title }}</h2>
+
+                    <div class="video-date">
+                      {{ videoshown_cyber.date|date:"F j, Y" }}
+                    </div>
+                  </div>
+
+                  <div
+                    class="article-btn"
+                    onclick="article()"
+                    ondblclick="article_9()"
+                  >
+                    <span id="arrowIcon">See Article</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="article" id="articalrrr">
+                <h2>Related Article</h2>
+
+                <p>
+                  {{ videoshown_cyber.text|default:"No description available"|safe }}
+                </p>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="relatedv" id="relatedv1">
+              <h2>Related Image</h2>
+
+              {% if videoshown_cyber.image %}
+              <img
+                src="{{ videoshown_cyber.image.url }}"
+                alt="Video Image"
+              />
+              {% else %}
+              <p>No related image available</p>
+              {% endif %}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function article() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+
+        article.style.transform = "translateY(0vh)";
+        article.style.opacity = "1";
+
+        video_55.style.transform = "translateY(0vh)";
+
+        icon.textContent = "Double Click To Hide";
+      }
+
+      function article_9() {
+        let article = document.getElementById("articalrrr");
+        let video_55 = document.getElementById("relatedv1");
+        let icon = document.getElementById("arrowIcon");
+
+        article.style.transform = "translateY(-20px)";
+        article.style.opacity = "0.15";
+
+        video_55.style.transform = "translateY(0vh)";
+
+        icon.textContent = "See Article";
+      }
+    </script>
+  </body>
+</html>

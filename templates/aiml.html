@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <title>Matrix</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0f0f0f;
+        --secondary-color: #181818;
+        --card-bg: #1f1f1f;
+        --border-color: #2d2d2d;
+        --hover-bg: #2a2a2a;
+        --text-primary: #ffffff;
+        --text-secondary: #aaaaaa;
+        --accent-color: #ff0000;
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f 0%, #141414 100%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* ================= HEADER ================= */
+
+      .header {
+        width: 100%;
+        height: 72px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(12px);
+        background: rgba(15, 15, 15, 0.96);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .topnav {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        gap: 20px;
+      }
+
+      .left-nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .menu {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .menu:hover {
+        background: var(--hover-bg);
+      }
+
+      .menu i {
+        font-size: 18px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+      }
+
+      .logo span {
+        color: var(--accent-color);
+      }
+
+      /* ================= SEARCH ================= */
+
+      .search-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .search {
+        width: 100%;
+        max-width: 680px;
+        display: flex;
+        align-items: center;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 35px;
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .search:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.08);
+      }
+
+      .seainp {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: white;
+        padding: 15px 18px;
+        font-size: 14px;
+      }
+
+      .seainp::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .seabtt {
+        width: 65px;
+        height: 50px;
+        border: none;
+        background: var(--hover-bg);
+        color: white;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .seabtt:hover {
+        background: var(--accent-color);
+      }
+
+      /* ================= LOGIN ================= */
+
+      .cy ul {
+        list-style: none;
+      }
+
+      .cy a {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .cy a:hover {
+        background: var(--accent-color);
+        transform: scale(1.08);
+      }
+
+      /* ================= MAIN LAYOUT ================= */
+
+      .main-layout {
+        display: flex;
+      }
+
+      /* ================= SIDEBAR ================= */
+
+      .sidenav {
+        width: 255px;
+        min-height: calc(100vh - 72px);
+        background: var(--secondary-color);
+        border-right: 1px solid var(--border-color);
+        padding: 22px 10px;
+        position: sticky;
+        top: 72px;
+      }
+
+      .icon ul {
+        list-style: none;
+      }
+
+      .icon ul li {
+        margin-bottom: 8px;
+      }
+
+      .icon ul li a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: var(--text-secondary);
+        padding: 14px 16px;
+        border-radius: 12px;
+        transition: var(--transition);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .icon ul li a:hover {
+        background: var(--hover-bg);
+        color: white;
+        transform: translateX(5px);
+      }
+
+      .icon ul li a i {
+        width: 22px;
+        font-size: 17px;
+      }
+
+      .sett {
+        margin-top: 35px;
+        padding-top: 22px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .sett ul {
+        list-style: none;
+        display: flex;
+        gap: 10px;
+      }
+
+      .sett a {
+        width: 42px;
+        height: 42px;
+        background: var(--hover-bg);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .sett a:hover {
+        background: var(--accent-color);
+        transform: scale(1.08);
+      }
+
+      /* ================= HOME ================= */
+
+      .home {
+        flex: 1;
+        padding: 30px;
+      }
+
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+        gap: 28px 22px;
+      }
+
+      /* ================= VIDEO CARD ================= */
+
+      .video-card {
+        transition: var(--transition);
+      }
+
+      .video-card:hover {
+        transform: translateY(-6px);
+      }
+
+      .video-card a {
+        color: white;
+      }
+
+      .thumbnail-wrapper {
+        width: 100%;
+        height: 205px;
+        overflow: hidden;
+        border-radius: 18px;
+        position: relative;
+        background: #111;
+        border: 1px solid transparent;
+        transition: var(--transition);
+      }
+
+      .video-card:hover .thumbnail-wrapper {
+        border-color: rgba(255, 0, 0, 0.4);
+        box-shadow: 0 16px 28px rgba(255, 0, 0, 0.12);
+      }
+
+      .thumbnail-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .video-card:hover img {
+        transform: scale(1.06);
+      }
+
+      .thumbnail-wrapper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 0, 0, 0);
+        transition: var(--transition);
+      }
+
+      .video-card:hover .thumbnail-wrapper::after {
+        background: rgba(255, 0, 0, 0.05);
+      }
+
+      /* ================= VIDEO INFO ================= */
+
+      .video-info {
+        display: flex;
+        gap: 14px;
+        padding-top: 14px;
+      }
+
+      .video-icon {
+        min-width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--hover-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-color);
+        font-size: 16px;
+        transition: var(--transition);
+      }
+
+      .video-card:hover .video-icon {
+        background: var(--accent-color);
+        color: white;
+      }
+
+      .video-meta {
+        flex: 1;
+      }
+
+      .video-meta h2 {
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 7px;
+        color: white;
+        font-weight: 600;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        transition: var(--transition);
+      }
+
+      .video-card:hover .video-meta h2 {
+        color: var(--accent-color);
+      }
+
+      .video-date {
+        color: var(--text-secondary);
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .video-date::before {
+        content: "📅";
+        font-size: 10px;
+      }
+
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 950px) {
+        .sidenav {
+          display: none;
+        }
+
+        .home {
+          padding: 18px;
+        }
+
+        .video-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+      }
+
+      @media (max-width: 650px) {
+        .topnav {
+          padding: 0 12px;
+          gap: 10px;
+        }
+
+        .logo {
+          font-size: 18px;
+        }
+
+        .search {
+          max-width: 100%;
+        }
+
+        .thumbnail-wrapper {
+          height: 190px;
+        }
+
+        .video-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .seabtt {
+          width: 55px;
+        }
+      }
+
+      /* ================= SCROLLBAR ================= */
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <!-- HEADER -->
+
+      <header class="header">
+        <div class="topnav">
+          <div class="left-nav">
+            <div class="menu">
+              <i class="fa-solid fa-bars" style="color: white"></i>
+            </div>
+
+            <div class="logo">MAT<span>RIX</span></div>
+          </div>
+
+          <div class="search-wrapper">
+            <form action="" style="width: 100%">
+              <div class="search">
+                <input
+                  class="seainp"
+                  type="search"
+                  placeholder="Search videos..."
+                />
+
+                <button class="seabtt" type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="cy">
+            <ul>
+              <li>
+                <a href="{% url 'login' %}">
+                  <i class="fa-solid fa-user" style="color: white"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN LAYOUT -->
+
+      <div class="main-layout">
+        <!-- SIDEBAR -->
+
+        <aside class="sidenav">
+          <div class="icon">
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a href="/profile">
+                  <i class="fa-solid fa-user"></i>
+                  Profile
+                </a>
+              </li>
+
+              <li>
+                <a href="/upload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  Upload
+                </a>
+              </li>
+
+              <li>
+                <a href="/contactus">
+                  <i class="fa-solid fa-comments"></i>
+                  Chat-Bot
+                </a>
+              </li>
+
+              <li>
+                <a href="/news">
+                  <i class="fa-solid fa-newspaper"></i>
+                  News
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sett">
+            <ul>
+              <li>
+                <a href="/info">
+                  <i class="fa-solid fa-circle-info"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="/setting">
+                  <i class="fa-solid fa-gear"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- HOME -->
+
+        <main class="home">
+          <div class="video-grid">
+            {% for n in humeData %}
+
+            <div class="video-card">
+              <a href="{% url 'video_detail_aiml' n.id %}">
+                <div class="thumbnail-wrapper">
+                  <img src="{{ n.thumbnail_image.url }}" alt="{{ n.title }}" />
+                </div>
+
+                <div class="video-info">
+                  <div class="video-icon">
+                    <i class="fa-solid fa-play"></i>
+                  </div>
+
+                  <div class="video-meta">
+                    <h2>{{ n.title }}</h2>
+
+                    <p class="video-date">{{ n.dinak }}</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            {% endfor %}
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

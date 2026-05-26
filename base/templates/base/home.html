@@ -1,0 +1,566 @@
+{% comment %} <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MATRIX</title>
+
+    <script
+      src="https://kit.fontawesome.com/6a72a8e32d.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <style>
+    body {
+      background-color: rgb(219, 219, 219);
+    }
+
+    .grid-container {
+      margin: 5% 10%;
+      display: grid;
+      grid-template-columns: 1fr 2fr; /* Two equal columns */
+      grid-template-rows: auto auto; /* Auto-sized rows */
+      gap: -10px; /* Gap between grid items */
+    }
+
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: 1fr; /* Single column layout */
+      }
+    }
+  </style>
+  <body>
+    <center><h4 class="bg-dark text-white p-4">MATRIX NEWS</h4></center>
+    <div class="grid-container">
+      <div class="grid-item">
+        <div class="card sticky-top rounded-5 p-3" style="width: 18rem">
+          <div class="card-header m-2 p-3">
+            <h6>Select a category to explore</h6>
+          </div>
+          <ul class="list-group list-group-flush p-3">
+            <li class="list-group-item">
+              <a href="/business" class="btn"
+                ><i class="fa-solid fa-business-time"></i>&nbsp;&nbsp;
+                Business</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/entertainment" class="btn"
+                ><i class="fa-solid fa-globe"></i>&nbsp;&nbsp; Entertainment</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/general" class="btn"
+                ><i class="fa-solid fa-earth-americas"></i>&nbsp;&nbsp;
+                General</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/health" class="btn"
+                ><i class="fa-solid fa-suitcase-medical"></i>&nbsp;&nbsp;
+                Health</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/science" class="btn"
+                ><i class="fa-solid fa-flask-vial"></i>&nbsp;&nbsp; Science</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/sports" class="btn"
+                ><i class="fa-solid fa-baseball-bat-ball"></i>&nbsp;&nbsp;
+                Sports</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a href="/technology" class="btn"
+                ><i class="fa-solid fa-microchip"></i>&nbsp;&nbsp; Technology</a
+              >
+            </li>
+            <br />
+            <div class="card rounded-5 p-2">
+              <div class="card-body">
+                <p class="card-title">Designed and Developed by,</p>
+                <h5 class="card-text">ATHARVA NIMKAR <br />😎😎😎</h5>
+                <a href="/" class="btn btn-primary">Website</a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <!-- Display an error message if 'error' is passed from views -->
+        {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+
+        <!-- Check if there are articles to display -->
+        {% if articles %} {% for j in articles %}
+        <div class="grid">
+          <div class="g-col-4">
+            <div class="card h-100 rounded-5">
+              <img
+                src="{{ j.urlToImage }}"
+                class="card-img-top h-100 rounded-5 p-3"
+                alt="..."
+              />
+              <div class="card-body bg-black bg-opacity-10 m-3 rounded-5">
+                <h5 class="card-title">{{ j.title }}</h5>
+                <p class="card-text">{{ j.description }}</p>
+                <a
+                  href="{{ j.url }}"
+                  class="btn btn-secondary rounded-5 p-3"
+                  target="_blank"
+                  >Read more &nbsp;
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i
+                ></a>
+                <br />
+                <br />
+                <p class="card-text">Published on : {{ j.publishedAt }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        {% endfor %} {% else %}
+        <!-- If no articles, display a friendly message -->
+        <p>No articles available at the moment. Please check back later.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
+{% endcomment %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MATRIX NEWS</title>
+
+    <script
+      src="https://kit.fontawesome.com/6a72a8e32d.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0f0f0f;
+        --card: #1a1a1a;
+        --border: #2a2a2a;
+        --hover: #242424;
+        --text: #ffffff;
+        --text2: #aaaaaa;
+        --accent: #ff0000;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* HEADER */
+
+      .top-header {
+        width: 100%;
+        background: #111;
+        padding: 22px;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+      }
+
+      .top-header h2 {
+        margin: 0;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+
+      .top-header span {
+        color: var(--accent);
+      }
+
+      /* LAYOUT */
+
+      .grid-container {
+        width: 100%;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 30px;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 20px;
+        position: sticky;
+        top: 110px;
+      }
+
+      .sidebar-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .category-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .category-list li {
+        margin-bottom: 12px;
+      }
+
+      .category-list a {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        text-decoration: none;
+        color: var(--text2);
+        background: #141414;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        transition: 0.3s;
+      }
+
+      .category-list a:hover {
+        background: var(--hover);
+        color: white;
+        transform: translateX(4px);
+      }
+
+      /* DEV CARD */
+
+      .developer-card {
+        margin-top: 25px;
+        background: #141414;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .developer-card h5 {
+        margin-top: 10px;
+        font-weight: 700;
+      }
+
+      .developer-card a {
+        margin-top: 10px;
+        border: none;
+        background: var(--accent);
+        padding: 10px 18px;
+        border-radius: 12px;
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      /* NEWS SECTION */
+
+      .news-container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .news-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+
+      .news-card:hover {
+        transform: translateY(-4px);
+        border-color: #444;
+      }
+
+      .news-image {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        background: #222;
+      }
+
+      .news-body {
+        padding: 24px;
+      }
+
+      .news-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        line-height: 1.4;
+      }
+
+      .news-desc {
+        color: var(--text2);
+        line-height: 1.8;
+        margin-bottom: 22px;
+      }
+
+      .news-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .news-date {
+        color: #888;
+        font-size: 14px;
+      }
+
+      .read-btn {
+        text-decoration: none;
+        background: var(--accent);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 14px;
+        transition: 0.3s;
+        font-weight: 600;
+      }
+
+      .read-btn:hover {
+        background: #cc0000;
+        color: white;
+      }
+
+      /* ALERT */
+
+      .custom-alert {
+        background: #2b0f0f;
+        color: #ffb3b3;
+        border: 1px solid #5e1d1d;
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      /* EMPTY */
+
+      .empty-news {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        color: var(--text2);
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 1000px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar-card {
+          position: relative;
+          top: 0;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .grid-container {
+          padding: 18px;
+        }
+
+        .news-image {
+          height: 220px;
+        }
+
+        .news-title {
+          font-size: 20px;
+        }
+
+        .news-footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      /* SCROLLBAR */
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <div class="top-header">
+      <h2>MAT<span>RIX</span> NEWS</h2>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="grid-container">
+      <!-- SIDEBAR -->
+
+      <div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">Select a category</div>
+
+          <ul class="category-list">
+            <li>
+              <a href="/business">
+                <i class="fa-solid fa-business-time"></i>
+                Business
+              </a>
+            </li>
+
+            <li>
+              <a href="/entertainment">
+                <i class="fa-solid fa-globe"></i>
+                Entertainment
+              </a>
+            </li>
+
+            <li>
+              <a href="/general">
+                <i class="fa-solid fa-earth-americas"></i>
+                General
+              </a>
+            </li>
+
+            <li>
+              <a href="/health">
+                <i class="fa-solid fa-suitcase-medical"></i>
+                Health
+              </a>
+            </li>
+
+            <li>
+              <a href="/science">
+                <i class="fa-solid fa-flask-vial"></i>
+                Science
+              </a>
+            </li>
+
+            <li>
+              <a href="/sports">
+                <i class="fa-solid fa-baseball-bat-ball"></i>
+                Sports
+              </a>
+            </li>
+
+            <li>
+              <a href="/technology">
+                <i class="fa-solid fa-microchip"></i>
+                Technology
+              </a>
+            </li>
+          </ul>
+
+          <div class="developer-card">
+            <p>Designed & Developed By</p>
+
+            <h5>ATHARVA NIMKAR 😎</h5>
+
+            <a href="/"> Visit Website </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS SECTION -->
+
+      <div class="news-container">
+        {% if error %}
+
+        <div class="custom-alert">{{ error }}</div>
+
+        {% endif %} {% if articles %} {% for j in articles %}
+
+        <div class="news-card">
+          {% if j.urlToImage %}
+
+          <img src="{{ j.urlToImage }}" class="news-image" alt="News Image" />
+
+          {% else %}
+
+          <img
+            src="https://via.placeholder.com/1200x600?text=No+Image"
+            class="news-image"
+            alt="No Image"
+          />
+
+          {% endif %}
+
+          <div class="news-body">
+            <div class="news-title">{{ j.title }}</div>
+
+            <div class="news-desc">{{ j.description }}</div>
+
+            <div class="news-footer">
+              <a href="{{ j.url }}" class="read-btn" target="_blank">
+                Read More
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <div class="news-date">Published on : {{ j.publishedAt }}</div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %} {% else %}
+
+        <div class="empty-news">
+          <h4>No articles available right now.</h4>
+          <p>Please check again later.</p>
+        </div>
+
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
